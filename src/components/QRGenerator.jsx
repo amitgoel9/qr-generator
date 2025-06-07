@@ -12,6 +12,7 @@ const QRGenerator = () => {
     qrSettings,
     updateQrData,
     updateQrSettings,
+    handleLogoUpload,
     generateQRValue
   } = useQRGenerator();
 
@@ -34,6 +35,7 @@ const QRGenerator = () => {
             <QRCustomizer 
               settings={qrSettings}
               onSettingsChange={updateQrSettings}
+              handleLogoUpload={handleLogoUpload}
             />
           </div>
 

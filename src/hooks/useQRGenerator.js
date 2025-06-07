@@ -25,7 +25,13 @@ const useQRGenerator = () => {
     bgColor: '#FFFFFF',
     fgColor: '#000000',
     level: 'M',
-    includeMargin: true
+    includeMargin: true,
+    // Logo settings
+    logo: null,
+    logoFile: null,
+    logoSize: 30, // Percentage of QR code size
+    logoBackground: true, // White background behind logo
+    logoRadius: 8 // Border radius for logo
   });
 
   const updateQrData = useCallback((field, value) => {
@@ -40,6 +46,28 @@ const useQRGenerator = () => {
       ...prev,
       [field]: value
     }));
+  }, []);
+
+  // Handle logo upload
+  const handleLogoUpload = useCallback((file) => {
+    if (!file) {
+      setQrSettings(prev => ({
+        ...prev,
+        logo: null,
+        logoFile: null
+      }));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setQrSettings(prev => ({
+        ...prev,
+        logo: e.target.result,
+        logoFile: file
+      }));
+    };
+    reader.readAsDataURL(file);
   }, []);
 
   const generateQRValue = useCallback(() => {
@@ -75,6 +103,7 @@ END:VCARD`;
     qrSettings,
     updateQrData,
     updateQrSettings,
+    handleLogoUpload,
     generateQRValue
   };
 };
