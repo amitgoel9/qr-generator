@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .qr-icon {
+            width: 512px;
+            height: 512px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+        }
+        .qr-pattern {
+            width: 400px;
+            height: 400px;
+            background: white;
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(21, 1fr);
+            grid-template-rows: repeat(21, 1fr);
+            gap: 2px;
+            padding: 20px;
+        }
+        .qr-dot {
+            background: #333;
+            border-radius: 1px;
+        }
+        .qr-dot:nth-child(1), .qr-dot:nth-child(2), .qr-dot:nth-child(3),
+        .qr-dot:nth-child(4), .qr-dot:nth-child(5), .qr-dot:nth-child(6),
+        .qr-dot:nth-child(7), .qr-dot:nth-child(19), .qr-dot:nth-child(21),
+        .qr-dot:nth-child(22), .qr-dot:nth-child(23), .qr-dot:nth-child(24),
+        .qr-dot:nth-child(25), .qr-dot:nth-child(26), .qr-dot:nth-child(27) {
+            background: #333;
+        }
+        .qr-corner {
+            width: 60px;
+            height: 60px;
+            border: 8px solid #333;
+            position: absolute;
+        }
+        .qr-corner:before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #333;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .corner-1 { top: 40px; left: 40px; }
+        .corner-2 { top: 40px; right: 40px; }
+        .corner-3 { bottom: 40px; left: 40px; }
+    </style>
+</head>
+<body>
+    <div class="qr-icon">
+        <div class="qr-pattern" style="position: relative;">
+            <div class="qr-corner corner-1"></div>
+            <div class="qr-corner corner-2"></div>
+            <div class="qr-corner corner-3"></div>
+            
+            <!-- QR pattern dots -->
+            <div class="qr-dot"></div><div></div><div class="qr-dot"></div><div></div><div class="qr-dot"></div>
+            <div></div><div class="qr-dot"></div><div></div><div class="qr-dot"></div><div></div>
+            <div class="qr-dot"></div><div></div><div class="qr-dot"></div><div class="qr-dot"></div><div></div>
+            <div></div><div class="qr-dot"></div><div></div><div></div><div class="qr-dot"></div>
+            <div class="qr-dot"></div><div></div><div class="qr-dot"></div><div class="qr-dot"></div><div class="qr-dot"></div>
+        </div>
+    </div>
+    
+    <h2>Save this as PNG:</h2>
+    <p>1. Right-click the icon above</p>
+    <p>2. "Save image as..." → logo512.png</p>
+    <p>3. Resize to 192x192 for logo192.png</p>
+    <p>4. Resize to 32x32 for favicon.ico</p>
+</body>
+</html> 
