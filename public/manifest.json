@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "QR Generator",
+  "name": "QR Code Generator - Free Online Tool",
+  "description": "Generate QR codes for URLs, text, WiFi, and contacts instantly",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "categories": ["utilities", "tools", "productivity"]
 }
