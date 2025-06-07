@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import QRCode from 'qrcode';
 import { Download, Share2 } from 'lucide-react';
 
@@ -6,57 +6,7 @@ const QRDisplay = ({ value, settings }) => {
   const canvasRef = useRef(null);
   const [qrGenerated, setQrGenerated] = useState(false);
 
-  useEffect(() => {
-    if (value && canvasRef.current) {
-      generateQRWithLogo();
-    }
-  }, [value, settings]);
-
-  const generateQRWithLogo = async () => {
-    if (!value || !canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    
-    // Set canvas size
-    canvas.width = settings.size;
-    canvas.height = settings.size;
-
-    try {
-      // Generate QR code data URL
-      const qrDataURL = await QRCode.toDataURL(value, {
-        width: settings.size,
-        margin: 0,
-        color: {
-          dark: settings.fgColor,
-          light: settings.bgColor,
-        },
-        errorCorrectionLevel: settings.level,
-      });
-
-      // Create QR image
-      const qrImage = new Image();
-      qrImage.onload = async () => {
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw QR code
-        ctx.drawImage(qrImage, 0, 0, settings.size, settings.size);
-
-        // Add logo if present
-        if (settings.logo) {
-          await drawLogo(ctx);
-        }
-        
-        setQrGenerated(true);
-      };
-      qrImage.src = qrDataURL;
-    } catch (error) {
-      console.error('Error generating QR code:', error);
-    }
-  };
-
-  const drawLogo = (ctx) => {
+  const drawLogo = useCallback((ctx) => {
     return new Promise((resolve) => {
       const logoImage = new Image();
       logoImage.onload = () => {
@@ -104,7 +54,57 @@ const QRDisplay = ({ value, settings }) => {
       };
       logoImage.src = settings.logo;
     });
-  };
+  }, [settings.size, settings.logoSize, settings.logoBackground, settings.logoRadius, settings.logo]);
+
+  const generateQRWithLogo = useCallback(async () => {
+    if (!value || !canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    canvas.width = settings.size;
+    canvas.height = settings.size;
+
+    try {
+      // Generate QR code data URL
+      const qrDataURL = await QRCode.toDataURL(value, {
+        width: settings.size,
+        margin: 0,
+        color: {
+          dark: settings.fgColor,
+          light: settings.bgColor,
+        },
+        errorCorrectionLevel: settings.level,
+      });
+
+      // Create QR image
+      const qrImage = new Image();
+      qrImage.onload = async () => {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw QR code
+        ctx.drawImage(qrImage, 0, 0, settings.size, settings.size);
+
+        // Add logo if present
+        if (settings.logo) {
+          await drawLogo(ctx);
+        }
+        
+        setQrGenerated(true);
+      };
+      qrImage.src = qrDataURL;
+    } catch (error) {
+      console.error('Error generating QR code:', error);
+    }
+  }, [value, settings.size, settings.fgColor, settings.bgColor, settings.level, settings.logo, drawLogo]);
+
+  useEffect(() => {
+    if (value && canvasRef.current) {
+      generateQRWithLogo();
+    }
+  }, [value, generateQRWithLogo]);
 
   const downloadQR = async () => {
     if (!canvasRef.current || !qrGenerated) return;
